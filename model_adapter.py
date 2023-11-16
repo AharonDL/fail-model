@@ -8,7 +8,7 @@ logger = logging.getLogger('FailTestAdapter')
 @dl.Package.decorators.module(description='Test Model Adapter for failing model',
                               name='model-adapter',
                               init_inputs={'model_entity': dl.Model})
-class Adapter(dl.BaseModelAdapter):
+class Adapter:
     def save(self, local_path, **kwargs):
         raise NotImplementedError('save is not implemented')
 
@@ -41,13 +41,13 @@ def package_creation(project: dl.Project):
     modules = dl.PackageModule.from_entry_point(entry_point='model_adapter.py')
 
     package = project.packages.push(
-        package_name='fail-model-functions',
+        package_name='fail-model-functions-new',
         src_path=os.getcwd(),
         is_global=False,
         package_type='ml',
         codebase=dl.GitCodebase(
             git_url='https://github.com/AharonDL/fail-model.git',
-            git_tag='fail-model-functions'
+            git_tag='fail-model-functions-new'
         ),
         modules=[modules],
         service_config={
@@ -68,7 +68,7 @@ def package_creation(project: dl.Project):
 
 def model_creation(package: dl.Package):
     model = package.models.create(
-        model_name='fail-model-functions',
+        model_name='fail-model-functions-new',
         description='Failing model',
         tags=[],
         dataset_id=None,
