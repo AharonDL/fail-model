@@ -16,7 +16,7 @@ class Adapter(dl.BaseModelAdapter):
         raise NotImplementedError('convert_from_dtlpy is not implemented')
 
     def load(self, local_path, **kwargs):
-        raise NotImplementedError('load is not implemented')
+        raise NotImplementedError('convert_from_dtlpy is not implemented')
 
     def train(self, data_path, output_path, **kwargs):
         raise NotImplementedError('train is not implemented')
@@ -41,13 +41,13 @@ def package_creation(project: dl.Project):
     modules = dl.PackageModule.from_entry_point(entry_point='model_adapter.py')
 
     package = project.packages.push(
-        package_name='fail-model-adapter',
+        package_name='fail-model-init',
         src_path=os.getcwd(),
         is_global=False,
         package_type='ml',
         codebase=dl.GitCodebase(
             git_url='https://github.com/AharonDL/fail-model.git',
-            git_tag='main'
+            git_tag='failing-model-init'
         ),
         modules=[modules],
         service_config={
@@ -68,7 +68,7 @@ def package_creation(project: dl.Project):
 
 def model_creation(package: dl.Package):
     model = package.models.create(
-        model_name='failing-model',
+        model_name='failing-model-init',
         description='Failing model',
         tags=[],
         dataset_id=None,
