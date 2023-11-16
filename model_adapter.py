@@ -41,13 +41,13 @@ def package_creation(project: dl.Project):
     modules = dl.PackageModule.from_entry_point(entry_point='model_adapter.py')
 
     package = project.packages.push(
-        package_name='fail-model-init',
+        package_name='fail-model-functions',
         src_path=os.getcwd(),
         is_global=False,
         package_type='ml',
         codebase=dl.GitCodebase(
             git_url='https://github.com/AharonDL/fail-model.git',
-            git_tag='failing-model-init'
+            git_tag='fail-model-functions'
         ),
         modules=[modules],
         service_config={
@@ -68,7 +68,7 @@ def package_creation(project: dl.Project):
 
 def model_creation(package: dl.Package):
     model = package.models.create(
-        model_name='failing-model-init',
+        model_name='fail-model-functions',
         description='Failing model',
         tags=[],
         dataset_id=None,
