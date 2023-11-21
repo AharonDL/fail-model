@@ -91,6 +91,6 @@ def deploy():
 
 
 if __name__ == "__main__":
-    # deploy()
-    adapter = Adapter(model_entity=dl.models.get(model_id="655c6f4005e52c2032ddaf29"))
+    deploy()
+    # adapter = Adapter(model_entity=dl.models.get(model_id="655c6f4005e52c2032ddaf29"))
 
