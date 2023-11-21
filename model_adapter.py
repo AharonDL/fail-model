@@ -8,27 +8,28 @@ logger = logging.getLogger('FailTestAdapter')
 @dl.Package.decorators.module(description='Test Model Adapter for failing model',
                               name='model-adapter',
                               init_inputs={'model_entity': dl.Model})
-class Adapter:
-    def save(self, local_path, **kwargs):
-        raise NotImplementedError('save is not implemented')
-
-    def convert_from_dtlpy(self, data_path, **kwargs):
-        raise NotImplementedError('convert_from_dtlpy is not implemented')
-
-    def load(self, local_path, **kwargs):
-        raise NotImplementedError('convert_from_dtlpy is not implemented')
+class Adapter(dl.BaseModelAdapter):
 
     def train(self, data_path, output_path, **kwargs):
         raise NotImplementedError('train is not implemented')
 
-    def prepare_item_func(self, item):
-        raise NotImplementedError('prepare_item_func is not implemented')
-
     def predict(self, batch, **kwargs):
         raise NotImplementedError('predict is not implemented')
 
-    def export(self):
-        raise NotImplementedError('export is not implemented')
+    def evaluate(self, model, dataset, filters):
+        raise NotImplementedError('evaluate is not implemented')
+
+    def load(self, local_path, **kwargs):
+        pass
+
+    def save(self, local_path, **kwargs):
+        pass
+
+    def convert_from_dtlpy(self, data_path, **kwargs):
+        pass
+
+
+name = 'fail-functions-2'
 
 
 def package_creation(project: dl.Project):
@@ -41,13 +42,13 @@ def package_creation(project: dl.Project):
     modules = dl.PackageModule.from_entry_point(entry_point='model_adapter.py')
 
     package = project.packages.push(
-        package_name='fail-model-functions-new',
+        package_name=name,
         src_path=os.getcwd(),
         is_global=False,
         package_type='ml',
         codebase=dl.GitCodebase(
             git_url='https://github.com/AharonDL/fail-model.git',
-            git_tag='fail-model-functions-new'
+            git_tag=name
         ),
         modules=[modules],
         service_config={
@@ -68,7 +69,7 @@ def package_creation(project: dl.Project):
 
 def model_creation(package: dl.Package):
     model = package.models.create(
-        model_name='fail-model-functions-new',
+        model_name=name,
         description='Failing model',
         tags=[],
         dataset_id=None,
@@ -90,4 +91,6 @@ def deploy():
 
 
 if __name__ == "__main__":
-    deploy()
+    # deploy()
+    adapter = Adapter(model_entity=dl.models.get(model_id="655c6f4005e52c2032ddaf29"))
+
